@@ -1,45 +1,55 @@
 int foodX, foodY;
 boolean food;
-Cell [] colony;
+Bacteria [] colony;
 void setup(){
-  size(1000,1000);
-  frameRate(60);
-  colony = new Cell[25];
+  size(500,500);
+  // frameRate(60);
+  colony = new Bacteria[50];
   for (int i=0; i<colony.length;i++){
-    colony[i]=new Cell();
+    colony[i]=new Bacteria();
   }
 }
 
 void draw(){
-  background(0,75,0);
+  background(50,75,150);
+  if (mousePressed==true){
+    food=true;
+  }
+  if (food==true){
+    foodX=mouseX;
+    foodY=mouseY;
+    fill(50,0,50);
+    ellipse(foodX,foodY,10,10);
+  }
+
   for (int i=0; i<colony.length;i++){
-  colony[i].move();
-  colony[i].show();
-  colony[i].edge();
-  colony[i].food();
+    colony[i].move();
+    colony[i].food();
+    colony[i].edge();
+    colony[i].show();
+  }
 }
-}
-class Cell{
+class Bacteria{
   int startX, startY;
-  Cell(){
-    startX=((int)(Math.random()*800)+100);
-    startY=((int)(Math.random()*800)+100);
+  Bacteria(){
+    startX=((int)(Math.random()*300)+100);
+    startY=((int)(Math.random()*300)+100);
   }
   void move(){
     startX=startX+((int)(Math.random()*7)-3);
     startY=startY+((int)(Math.random()*7)-3);
   }
   void edge(){
-    if (startX<=50){
+    if (startX<=25){
       startX=startX+((int)(Math.random())+10);
     }
-    if (startX>=950){
+    if (startX>=475){
     startX=startX+((int)(Math.random())-10);
     }
-    if (startY<=50){
+    if (startY<=25){
     startY=startY+((int)(Math.random())+10);
     }
-    if (startY>=950){
+    if (startY>=475){
     startY=startY+((int)(Math.random())-10);
     }
     if (startX==foodX&&startY==foodY){
@@ -47,37 +57,34 @@ class Cell{
     }
   }
   void food(){
-  if (food==true){
-    fill(50,0,50);
-    ellipse(foodX,foodY,10,10);
+    // if (food==true){
+    //   fill(50,0,50);
+    //   ellipse(foodX,foodY,10,10);
+    // }
+    if (food==true){
+      if (startX<foodX){
+        startX=startX+((int)(Math.random()*9));
+      }
+      if (startX>foodX){
+        startX=startX+((int)(Math.random()*9)-8);
+      }
+      if (startY<foodY){
+        startY=startY+((int)(Math.random()*9));
+      }
+      if (startY>foodY){
+        startY=startY+((int)(Math.random()*9)-8);
+      }
+    }
   }
-  if (food==true){
-    if (startX<foodX){
-      startX=startX+((int)(Math.random()*9));
-    }
-    if (startX>foodX){
-    startX=startX+((int)(Math.random()*9)-8);
-    }
-    if (startY<foodY){
-    startY=startY+((int)(Math.random()*9));
-    }
-    if (startY>foodY){
-    startY=startY+((int)(Math.random()*9)-8);
-    }
+  void show(){
+    fill(startX/4,startY/4,75,100);
+    ellipse(startX, startY, 15,15); 
   }
 }
-  void show(){
-  int r = (int)(Math.random()*251);
-  int g = (int)(Math.random()*251);
-  int b = (int)(Math.random()*251);
-  fill(r,g,b);
-  ellipse(startX, startY, 30,30); 
-  }
-  }
-  void mouseReleased(){
-    food=true;
-    foodX=mouseX;
-    foodY=mouseY;
-    fill(50,0,50);
-    ellipse(foodX,foodY,10,10);
-  }
+// void mouseReleased(){
+//     food=true;
+//     foodX=mouseX;
+//     foodY=mouseY;
+//     fill(50,0,50);
+//     ellipse(foodX,foodY,10,10);
+//   }
